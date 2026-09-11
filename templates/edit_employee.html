@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee</title>
+</head>
+<body>
+    <h1>Edit Employee</h1>
+    <form action="/edit_employee/{{employee[0]}}" method="POST">
+        Enter ID : <input type="number" name="eid" value="{{employee[0]}}" disabled><br><br>
+        Enter Name : <input type="text" name="ename" value="{{employee[1]}}" ><br><br>
+        Enter Department : <input type="text" name="edept" value="{{employee[2]}}" ><br><br>
+        Enter Salary : <input type="number" name="esalary" value="{{employee[3]}}" ><br><br>
+        Enter Phone : <input type="number" name="ephone" value="{{employee[4]}}" ><br><br>
+        <input type="submit" value="update_Employee">
+    </form>
+</body>
+</html>
