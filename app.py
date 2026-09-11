@@ -2,10 +2,10 @@ from flask import Flask,request,redirect,render_template,session,jsonify
 import mysql.connector
 from datetime import timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import os
 
 app=Flask(__name__)
-app.secret_key="qwerty123"
+app.secret_key=os.environ.get("secret_key")
 app.permanent_session_lifetime=timedelta(seconds=30)
 
 conn = mysql.connector.connect(
