@@ -1,6 +1,7 @@
 from flask import Flask,request,redirect,render_template,session,jsonify
 import mysql.connector
 from datetime import timedelta
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app=Flask(__name__)
@@ -25,14 +26,14 @@ def register():
         username=request.form["username"]
         password=request.form["password"]
         role=request.form["role"]
-        
+        hashed_password=generate_password_hash(password)
 
         cursor=conn.cursor()
         cursor.execute("insert into users(username,password,role)values(%s,%s,%s)",
-                       (username,password,role))
+                       (username,hashed_password,role))
         conn.commit()
         cursor.close()
-        return f"registration successfil.."
+        return f"""registration successfil.. <a href="/login">Login</a> """
     return render_template("register.html")
 
 @app.route('/login',methods=['GET','POST'])
@@ -42,11 +43,11 @@ def login():
         password=request.form["password"]
 
         cursor=conn.cursor()
-        cursor.execute("select * from users where username=%s and password=%s",
-                       (username,password))
+        cursor.execute("select * from users where username=%s",
+                       (username,))
         user=cursor.fetchone()
         cursor.close()
-        if user:
+        if user and check_password_hash(user[2],password):
             session.permanent=True
             session["login"]=True
             session["username"]=username
